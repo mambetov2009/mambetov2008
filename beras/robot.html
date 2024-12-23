@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Samsung Galaxy S24 Ultra - Experience the Future</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+
+        padding: 0;
+
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+
+        line-height: 1.6;
+
+        color: #333;
+
+        overflow-x: hidden;
+      }
+
+      .container {
+        width: 100%;
+
+        max-width: 1200px;
+
+        margin: 0 auto;
+
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: rgba(255, 255, 255, 0.95);
+
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+        position: fixed;
+
+        width: 100%;
+
+        top: 0;
+
+        z-index: 1000;
+
+        transition: all 0.3s ease;
+      }
+
+      header.scrolled {
+        padding: 10px 0;
+      }
+
+      nav {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 15px 0;
+      }
+
+      .logo img {
+        height: 30px;
+
+        transition: all 0.3s ease;
+      }
+
+      .nav-links {
+        display: flex;
+
+        gap: 30px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #333;
+
+        font-weight: 500;
+
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #1428a0;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #e7f0fd, #ffffff);
+
+        padding: 120px 0 60px;
+
+        overflow: hidden;
+      }
+
+      .hero-content {
+        display: flex;
+
+        align-items: center;
+
+        gap: 60px;
+      }
+
+      .hero-text {
+        flex: 1;
+      }
+
+      .hero-image {
+        flex: 1;
+
+        text-align: center;
+      }
+
+      .hero-image img {
+        max-width: 100%;
+
+        height: auto;
+
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+
+        transition: transform 0.5s ease;
+      }
+
+      .hero-image img:hover {
+        transform: scale(1.05) rotate(2deg);
+      }
+
+      .badge {
+        display: inline-block;
+
+        background-color: #1428a0;
+
+        color: #fff;
+
+        padding: 5px 15px;
+
+        border-radius: 25px;
+
+        font-size: 0.9rem;
+
+        font-weight: 600;
+
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 3rem;
+
+        margin-bottom: 20px;
+
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+
+        margin-bottom: 30px;
+
+        color: #666;
+      }
+
+      .btn {
+        display: inline-block;
+
+        background-color: #1428a0;
+
+        color: #fff;
+
+        padding: 12px 30px;
+
+        text-decoration: none;
+
+        border-radius: 30px;
+
+        font-weight: 600;
+
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #0f1f7a;
+
+        transform: translateY(-3px);
+      }
+
+      .btn-outline {
+        background-color: transparent;
+
+        border: 2px solid #1428a0;
+
+        color: #1428a0;
+      }
+
+      .btn-outline:hover {
+        background-color: #1428a0;
+
+        color: #fff;
+      }
+
+      .features {
+        padding: 100px 0;
+
+        background-color: #fff;
+      }
+
+      .features h2 {
+        text-align: center;
+
+        margin-bottom: 60px;
+
+        font-size: 2.5rem;
+
+        color: #333;
+      }
+
+      .feature-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+        gap: 40px;
+      }
+
+      .feature-card {
+        background-color: #f8f9fa;
+
+        border-radius: 15px;
+
+        overflow: hidden;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .feature-content {
+        padding: 30px;
+      }
+
+      .feature-content h3 {
+        margin-bottom: 15px;
+
+        font-size: 1.5rem;
+
+        color: #1428a0;
+      }
+
+      .feature-content p {
+        color: #666;
+      }
+
+      .purchase {
+        background-color: #f8f9fa;
+
+        padding: 100px 0;
+      }
+
+      .purchase-content {
+        max-width: 600px;
+
+        margin: 0 auto;
+
+        text-align: center;
+      }
+
+      .purchase-card {
+        background-color: #fff;
+
+        border-radius: 15px;
+
+        padding: 40px;
+
+        margin-top: 40px;
+
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+      }
+
+      .quantity-selector {
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 30px;
+      }
+
+      .quantity-btn {
+        background-color: #f0f0f0;
+
+        border: none;
+
+        width: 40px;
+
+        height: 40px;
+
+        border-radius: 50%;
+
+        font-size: 1.2rem;
+
+        cursor: pointer;
+
+        transition: all 0.3s ease;
+      }
+
+      .quantity-btn:hover {
+        background-color: #1428a0;
+
+        color: #fff;
+      }
+
+      #quantity {
+        font-size: 1.2rem;
+
+        width: 60px;
+
+        text-align: center;
+
+        border: 2px solid #f0f0f0;
+
+        border-radius: 25px;
+
+        padding: 5px;
+      }
+
+      .purchase-info {
+        margin-bottom: 30px;
+      }
+
+      .purchase-info p {
+        margin-bottom: 10px;
+
+        color: #666;
+      }
+
+      .cart-icon {
+        position: relative;
+
+        cursor: pointer;
+      }
+
+      .cart-count {
+        position: absolute;
+
+        top: -8px;
+
+        right: -8px;
+
+        background-color: #1428a0;
+
+        color: #fff;
+
+        font-size: 0.8rem;
+
+        width: 20px;
+
+        height: 20px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+      }
+
+      .cart-modal {
+        display: none;
+
+        position: fixed;
+
+        top: 80px;
+
+        right: 20px;
+
+        background-color: #fff;
+
+        border-radius: 15px;
+
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+        padding: 30px;
+
+        width: 350px;
+
+        max-width: 90vw;
+
+        z-index: 1000;
+      }
+
+      .cart-modal h3 {
+        margin-bottom: 20px;
+
+        color: #1428a0;
+      }
+
+      .cart-item {
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .cart-item img {
+        width: 80px;
+
+        height: 80px;
+
+        object-fit: cover;
+
+        border-radius: 10px;
+      }
+
+      .cart-item-info h4 {
+        margin-bottom: 5px;
+
+        color: #333;
+      }
+
+      .cart-item-info p {
+        color: #666;
+      }
+
+      @media (max-width: 768px) {
+        .hero-content {
+          flex-direction: column;
+        }
+
+        .hero-image {
+          order: -1;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header id="header">
+      <nav class="container">
+        <div class="logo">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/91/Samsung_Galaxy_Logo.png"
+            alt="Samsung Logo"
+          />
+        </div>
+
+        <div class="nav-links">
+          <a href="#features">Features</a>
+
+          <a href="#purchase">Buy Now</a>
+
+          <div class="cart-icon" id="cartIcon">
+            ????
+
+            <span class="cart-count" id="cartCount">0</span>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <span class="badge">New</span>
+
+            <h1>Samsung Galaxy S24 Ultra</h1>
+
+            <p>
+              Experience the future of mobile technology with AI-powered
+              innovation
+            </p>
+
+            <div>
+              <a href="#features" class="btn">Explore Features</a>
+
+              <a href="#" class="btn btn-outline" style="margin-left: 15px"
+                >View Specs</a
+              >
+            </div>
+          </div>
+
+          <div class="hero-image">
+            <img
+              src="https://images.samsung.com/is/image/samsung/p6pim/co/2401/gallery/co-galaxy-s24-s928-sm-s928bztultc-539325480?$650_519_PNG$"
+              alt="Samsung Galaxy S24 Ultra"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Key Features</h2>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>AI-Powered Camera</h3>
+
+              <p>
+                Capture stunning photos and videos with advanced AI enhancements
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>S Pen Included</h3>
+
+              <p>
+                Write, draw, and navigate with precision using the built-in S
+                Pen
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>Powerful Performance</h3>
+
+              <p>Experience lightning-fast speeds with the latest processor</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>All-Day Battery</h3>
+
+              <p>Stay connected longer with intelligent battery management</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>5G Connectivity</h3>
+
+              <p>Enjoy ultra-fast download and streaming speeds</p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-content">
+              <h3>Durable Design</h3>
+
+              <p>Protected by Corning® Gorilla® Glass Victus® 2</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="purchase" class="purchase">
+      <div class="container">
+        <div class="purchase-content">
+          <h2>Get Your Galaxy S24 Ultra</h2>
+
+          <p>Starting from $1,299 or $54.12/mo for 24 mo</p>
+
+          <div class="purchase-card">
+            <div class="quantity-selector">
+              <button class="quantity-btn" id="decreaseQuantity">-</button>
+
+              <input type="number" id="quantity" value="1" min="1" max="10" />
+
+              <button class="quantity-btn" id="increaseQuantity">+</button>
+            </div>
+
+            <div class="purchase-info">
+              <p>✓ Free shipping</p>
+
+              <p>✓ 24-month financing available</p>
+
+              <p>✓ Samsung official warranty</p>
+            </div>
+
+            <a href="#" class="btn" id="addToCart">Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cart-modal" id="cartModal">
+      <h3>Shopping Cart</h3>
+
+      <div id="cartItems"></div>
+
+      <a href="#" class="btn" id="checkout">Proceed to Checkout</a>
+    </div>
+
+    <script>
+      // Sticky header
+
+      const header = document.getElementById("header");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Smooth scrolling
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Cart functionality
+
+      let cartCount = 0;
+
+      const cartCountElement = document.getElementById("cartCount");
+
+      const cartModal = document.getElementById("cartModal");
+
+      const cartItems = document.getElementById("cartItems");
+
+      const addToCartBtn = document.getElementById("addToCart");
+
+      const quantityInput = document.getElementById("quantity");
+
+      const decreaseQuantityBtn = document.getElementById("decreaseQuantity");
+
+      const increaseQuantityBtn = document.getElementById("increaseQuantity");
+
+      const cartIcon = document.getElementById("cartIcon");
+
+      function updateCartCount() {
+        cartCountElement.textContent = cartCount;
+      }
+
+      function updateCartModal() {
+        cartItems.innerHTML = `
+
+                <div class="cart-item">
+
+                    <img src="https://images.samsung.com/is/image/samsung/p6pim/co/2401/gallery/co-galaxy-s24-s928-sm-s928bztultc-539325480?$650_519_PNG$" alt="Galaxy S24 Ultra">
+
+                    <div class="cart-item-info">
+
+                        <h4>Samsung Galaxy S24 Ultra</h4>
+
+                        <p>Quantity: ${cartCount}</p>
+
+                    </div>
+
+                </div>
+
+            `;
+      }
+
+      addToCartBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const quantity = parseInt(quantityInput.value);
+
+        cartCount += quantity;
+
+        updateCartCount();
+
+        updateCartModal();
+
+        cartModal.style.display = "block";
+      });
+
+      cartIcon.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        cartModal.style.display =
+          cartModal.style.display === "none" ? "block" : "none";
+      });
+
+      decreaseQuantityBtn.addEventListener("click", () => {
+        if (quantityInput.value > 1) {
+          quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+      });
+
+      increaseQuantityBtn.addEventListener("click", () => {
+        if (quantityInput.value < 10) {
+          quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+      });
+    </script>
+  </body>
+</html>

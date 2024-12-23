@@ -5,7 +5,7 @@
 }
 
 body {
-  background: hsl(240, 2%, 8%);
+  background: hwb(240 8% 92%);
 }
 
 .ctr {
@@ -20,7 +20,7 @@ body {
   background: #76afd6;
   border-radius: 100%;
   border: 1px solid #0d152b;
-  box-shadow: -2px 20px 0 -3px #4283c4, -20px 20px #0d152b;
+  box-shadow: -2px 20px 0 -3px #4e82b7, -20px 20px #0d152b;
   flex-direction: column;
 }
 
@@ -39,8 +39,8 @@ body {
 }
 
 .board > span {
-  background: #76afd6;
-  color: #fff;
+  background: hsl(121, 88%, 46%);
+  color: #d51010;
   font-size: 4em;
   padding-left: 9px;
   padding-top: 6px;
@@ -60,7 +60,7 @@ body {
 
 #reset {
   margin-top: 14px;
-  color: #fff;
+  color: #ca119c;
 }
 
 .win {
