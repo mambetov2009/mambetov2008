@@ -1,11 +1,16 @@
-'use strict'
+const board = document.getElementById("board");
+const cells = document.querySelectorAll(".cell");
+const restartButton = document.getElementById("restart");
+const scoreXDisplay = document.getElementById("scoreX");
+const scoreODisplay = document.getElementById("scoreO");
+const notification = document.getElementById("notification");
 
-const _ = document,
-          cols = Array.from(_.querySelectorAll('.board > span')),
-					reset = _.querySelector('#reset')
-let cur = true
-let arr = new Array(9).fill(null)
-const wins = [
+let currentPlayer = "X";
+let boardState = Array(9).fill(null);
+let gameActive = true;
+let score = { X: 0, O: 0 };
+
+const winningConditions = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -13,51 +18,98 @@ const wins = [
   [1, 4, 7],
   [2, 5, 8],
   [0, 4, 8],
-  [2, 4, 6]
-]
-function event(can) {
-	reset.addEventListener('click', fnreset)
-  for(let col of cols)
-    if(can)
-      col.addEventListener('click', play)
-    else
-      col.removeEventListener('click', play)
-}
-event(true)
-function play(e) {
-  const __ = e.target
-  if(!__.innerHTML){
-    cur = !cur
-    __.innerHTML = cur ? '<h1 name="O">O</h1>' :  '<h1 name="X">X</h1>'
-    move(parseInt(__.id.split(/\D+/g)[1]), __.childNodes[0].getAttribute('name'))
+  [2, 4, 6],
+];
+
+function handleCellClick(event) {
+  const clickedCell = event.target;
+  const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
+
+  if (boardState[clickedCellIndex] || !gameActive) {
+    return;
+  }
+
+  boardState[clickedCellIndex] = currentPlayer;
+  clickedCell.textContent = currentPlayer;
+  clickedCell.classList.add(currentPlayer);
+
+  if (checkWin()) {
+    showNotification(`Player ${currentPlayer} wins!`);
+    score[currentPlayer]++;
+    updateScoreboard();
+    gameActive = false;
+  } else if (boardState.every((cell) => cell)) {
+    showNotification("Draw!");
+    gameActive = false;
+  } else {
+    currentPlayer = "O";
+    computerPlay();
   }
 }
 
-function move(ind, sign) {
-  arr[ind] = sign
-  console.log(arr)
+function computerPlay() {
+  const availableCells = boardState
+    .map((cell, index) => (cell === null ? index : null))
+    .filter((cell) => cell !== null);
+  const randomIndex = Math.floor(Math.random() * availableCells.length);
+  const computerMove = availableCells[randomIndex];
 
-  for (let i = 0; i < wins.length; i++) {
-     let [a, b, c] = wins[i] 
-      if(cmp(arr[a], arr[b], arr[c])){
-        console.log(sign, ' wins')
-        event(false)
-        cols[a].classList.add('win')
-        cols[b].classList.add('win')
-        cols[c].classList.add('win')
-      }
+  boardState[computerMove] = currentPlayer;
+  cells[computerMove].textContent = currentPlayer;
+  cells[computerMove].classList.add(currentPlayer);
+
+  if (checkWin()) {
+    showNotification(`Player ${currentPlayer} (Computer) wins!`);
+    score[currentPlayer]++;
+    updateScoreboard();
+    gameActive = false;
+  } else if (boardState.every((cell) => cell)) {
+    showNotification("Draw!");
+    gameActive = false;
+  } else {
+    currentPlayer = "X";
   }
 }
-function cmp(a, b, c) {
-  if(a && b && c)
-    return (a === b) && (a === c) && (b === c)
+
+function checkWin() {
+  return winningConditions.some((condition) => {
+    const [a, b, c] = condition;
+    return (
+      boardState[a] === currentPlayer &&
+      boardState[b] === currentPlayer &&
+      boardState[c] === currentPlayer
+    );
+  });
 }
 
-function fnreset() {
-    for(let col of cols){
-      col.classList.remove('win')
-      col.innerHTML = ''
-    }
-    arr = new Array(9).fill(null)
-    event(true)
-}            
+function showNotification(message) {
+  notification.textContent = message;
+  notification.style.display = "block";
+  notification.style.opacity = "1";
+  setTimeout(() => {
+    notification.style.opacity = "0";
+    setTimeout(() => {
+      notification.style.display = "none";
+    }, 500);
+  }, 3000);
+}
+
+function updateScoreboard() {
+  scoreXDisplay.textContent = score.X;
+  scoreODisplay.textContent = score.O;
+}
+
+function restartGame() {
+  gameActive = true;
+  currentPlayer = "X";
+  boardState.fill(null);
+  cells.forEach((cell) => {
+    cell.textContent = "";
+    cell.classList.remove("X", "O");
+  });
+  notification.style.display = "none";
+}
+
+cells.forEach((cell) => cell.addEventListener("click", handleCellClick));
+restartButton.addEventListener("click", restartGame);
+   

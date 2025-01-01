@@ -2,18 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Tic Tac Toe</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.0.2/tailwind.min.css"
-    />
-    <link rel="stylesheet" href="./baha.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>крестик нолик</title>
+    <link rel="stylesheet" href="baha.css" />
   </head>
   <body>
+<<<<<<< HEAD
     <body class="w-screen h-screen ctr">
       <div class="tabel ctr">
         <div class="board">
@@ -24,8 +18,40 @@
           ><span id="col-8"></span>
         </div>
         <button id="reset">назад</button>
+=======
+    <div id="notification">Winner!</div>
+    <div class="container">
+      <div id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+>>>>>>> f0b3b489333c748159d08dc1e3c8075b7ca698e1
       </div>
-    </body>
-    <script src="./baha.js"></script>
+      <div id="scoreboard">
+        <h2>Счет</h2>
+        <table>
+          <tr>
+            <th>Игрок</th>
+            <th>Счет</th>
+          </tr>
+          <tr>
+            <td>X</td>
+            <td id="scoreX">0</td>
+          </tr>
+          <tr>
+            <td>O</td>
+            <td id="scoreO">0</td>
+          </tr>
+        </table>
+        <button id="restart">Перезапуск</button>
+      </div>
+    </div>
+    <script src="baha.js"></script>
   </body>
 </html>
