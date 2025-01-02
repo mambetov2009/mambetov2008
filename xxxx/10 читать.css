@@ -12,9 +12,10 @@ body {
   align-items: center;
   padding: 3rem;
   font-family: "Lato";
-  font-size: 1.5rem;
-  background: #24c6dc;
-  background: -webkit-linear-gradient(to right, #514a9d, #24c6dc);
+  font-size: 8px;
+
+  background: #24d9dc;
+  background: -webkit-linear-gradient(to right, #cbc8eb, #24c6dc);
   background: linear-gradient(to right, #514a9d, #24c6dc);
 }
 .menu {
