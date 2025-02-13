@@ -1,38 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./loginn.css" />
-  </head>
-  <body>
-    <div class="wrapper">
-      <form action="#">
-        <h2>welcome</h2>
-        <div class="input-field">
-          <input type="text" required />
-          <label>Enter eour email</label>
-        </div>
-        <div class="input-field">
-          <input type="password" required />
-          <label>Enter eour password</label>
-        </div>
-        <div class="forget">
-          <label for="remember">
-            <input type="checkbox" id="remember" />
-            <p>remember me</p>
-          </label>
-          <a href="#">forgot password ?</a>
-        </div>
-        <button type="submit">Log in</button>
-        <div class="register">
-          <p>
-            dont have an account ?
-            <a href="#">register</a>
-          </p>
-        </div>
-      </form>
-    </div>
-  </body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скриншот лица</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        video, canvas {
+            border: 2px solid black;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Сделай скриншот лица</h1>
+    <input type="password" id="password" placeholder="Введите пароль">
+    <button id="auth">Войти</button>
+    <br>
+    <video id="video" autoplay style="display: none;"></video>
+    <br>
+    <button id="capture" style="display: none;">Сделать снимок</button>
+    <button id="save" style="display: none;">Сохранить снимок</button>
+    <br>
+    <canvas id="canvas"></canvas>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const captureBtn = document.getElementById('capture');
+        const saveBtn = document.getElementById('save');
+        const authBtn = document.getElementById('auth');
+        const passwordInput = document.getElementById('password');
+        const correctPassword = "1234"; // Установите свой пароль
+
+        authBtn.addEventListener('click', () => {
+            if (passwordInput.value === correctPassword) {
+                document.getElementById('video').style.display = 'block';
+                captureBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'inline-block';
+                passwordInput.style.display = 'none';
+                authBtn.style.display = 'none';
+
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                    })
+                    .catch(err => {
+                        console.error("Ошибка доступа к камере: ", err);
+                    });
+            } else {
+                alert("Неверный пароль!");
+            }
+        });
+
+        captureBtn.addEventListener('click', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'screenshot.png';
+            link.click();
+        });
+    </script>
+</body>
 </html>
