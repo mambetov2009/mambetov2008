@@ -1,63 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <title>игра крестик нолик</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.0.2/tailwind.min.css"
-    />
-    <link rel="stylesheet" href="./mest.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Скриншот лица</title>
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+      video,
+      canvas {
+        display: block;
+        margin: 10px auto;
+      }
+      button {
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
-    <header class="center">
-      <a href="#" class="btn"></a>
-    </header>
-    <nav class="fixed-navbar">
-      <button class="button">
-        <a href="#home" style="color: #fff">Che cos'è</a>
-      </button>
-      <button class="button button2">
-        <a href="#cause" style="color: #fff"> Cause</a>
-      </button>
-      <button class="button button3">
-        <a href="#fasi" style="color: #fff"> fasi</a>
-      </button>
-      <button class="button button4">
-        <a href="#sintomi" style="color: #fff">Sintomi</a>
-      </button>
-      <button class="button button5">
-        <a href="#trattamento" style="color: #fff">Trattamento</a>
-      </button>
-    </nav>
-    <div class="background-image">
-      <h1 class="beka">jfgk</h1>
-    </div>
+    <h2>Скриншот с камеры</h2>
+    <video id="video" width="320" height="240" autoplay></video>
+    <button id="snap">📸 Сделать фото</button>
+    <a id="download" style="display: none">⬇️ Скачать фото</a>
+    <canvas id="canvas" width="320" height="240" style="display: none"></canvas>
 
-    <div class="progress-bar"></div>
-    <section>
-      <h3>
-        "Сделайте каждый момент особенным с нашей удобной и красивой мебелью."
-      </h1>
-      <div class="card-container">
-        <div class="card">
-          <h2>Valley</h2>
-          <img
-            src="https://images.unsplash.com/photo-1479030160180-b1860951d696?q=80&w=3072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="img"
-          />
-          <p>
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Augue interdum
-            at erat cursus quis; scelerisque feugiat.
-          </p>
-        </div>
-        <button id="reset">назад</button>
-      </div>
-    </body>
-    <script src="./mesta.js"></script>
+    <script>
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      const snapButton = document.getElementById("snap");
+      const downloadLink = document.getElementById("download");
+
+      // Запуск камеры
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          console.error("Ошибка доступа к камере: ", err);
+        });
+
+      // Сделать фото и сохранить
+      snapButton.addEventListener("click", () => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageUrl = canvas.toDataURL("image/png");
+
+        // Создание ссылки для скачивания
+        downloadLink.href = imageUrl;
+        downloadLink.download = `screenshot_${Date.now()}.png`;
+        downloadLink.style.display = "block";
+        downloadLink.textContent = "⬇️ Скачать фото";
+      });
+    </script>
   </body>
 </html>
+
