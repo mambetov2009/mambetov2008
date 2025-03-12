@@ -1,115 +1,92 @@
-const board = document.getElementById("board");
-const cells = document.querySelectorAll(".cell");
-const restartButton = document.getElementById("restart");
-const scoreXDisplay = document.getElementById("scoreX");
-const scoreODisplay = document.getElementById("scoreO");
-const notification = document.getElementById("notification");
+const bird = document.getElementById("bird");
+const obstacles = document.getElementById("obstacles");
+const scoreElement = document.getElementById("score");
+let birdTop = 250;
+let gravity = 2;
+let score = 0;
+let gameSpeed = 2;
 
-let currentPlayer = "X";
-let boardState = Array(9).fill(null);
-let gameActive = true;
-let score = { X: 0, O: 0 };
-
-const winningConditions = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
-function handleCellClick(event) {
-  const clickedCell = event.target;
-  const clickedCellIndex = parseInt(clickedCell.getAttribute("data-index"));
-
-  if (boardState[clickedCellIndex] || !gameActive) {
-    return;
-  }
-
-  boardState[clickedCellIndex] = currentPlayer;
-  clickedCell.textContent = currentPlayer;
-  clickedCell.classList.add(currentPlayer);
-
-  if (checkWin()) {
-    showNotification(`Player ${currentPlayer} wins!`);
-    score[currentPlayer]++;
-    updateScoreboard();
-    gameActive = false;
-  } else if (boardState.every((cell) => cell)) {
-    showNotification("Draw!");
-    gameActive = false;
-  } else {
-    currentPlayer = "O";
-    computerPlay();
+// Гравитация
+function applyGravity() {
+  birdTop += gravity;
+  bird.style.top = birdTop + "px";
+  if (birdTop > 560 || birdTop < 0) {
+    endGame();
   }
 }
 
-function computerPlay() {
-  const availableCells = boardState
-    .map((cell, index) => (cell === null ? index : null))
-    .filter((cell) => cell !== null);
-  const randomIndex = Math.floor(Math.random() * availableCells.length);
-  const computerMove = availableCells[randomIndex];
+// Прыжок
+function jump() {
+  birdTop -= 60;
+  bird.style.top = birdTop + "px";
+}
 
-  boardState[computerMove] = currentPlayer;
-  cells[computerMove].textContent = currentPlayer;
-  cells[computerMove].classList.add(currentPlayer);
-
-  if (checkWin()) {
-    showNotification(`Player ${currentPlayer} (Computer) wins!`);
-    score[currentPlayer]++;
-    updateScoreboard();
-    gameActive = false;
-  } else if (boardState.every((cell) => cell)) {
-    showNotification("Draw!");
-    gameActive = false;
-  } else {
-    currentPlayer = "X";
+// Обработка нажатия клавиши (для десктопов)
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    jump();
   }
+});
+
+// Обработка касания (для мобильных устройств)
+document.addEventListener("touchstart", () => {
+  jump();
+});
+
+// Создание препятствий
+function createObstacle() {
+  const obstacle = document.createElement("div");
+  obstacle.classList.add("obstacle");
+  const obstacleHeight = Math.floor(Math.random() * 300) + 100;
+  obstacle.style.height = obstacleHeight + "px";
+  obstacle.style.left = "400px";
+  obstacle.style.top = "0";
+  obstacles.appendChild(obstacle);
+
+  const gap = 150;
+  const bottomObstacleHeight = 600 - obstacleHeight - gap;
+  const bottomObstacle = document.createElement("div");
+  bottomObstacle.classList.add("obstacle");
+  bottomObstacle.style.height = bottomObstacleHeight + "px";
+  bottomObstacle.style.left = "400px";
+  bottomObstacle.style.bottom = "0";
+  obstacles.appendChild(bottomObstacle);
+
+  moveObstacle(obstacle, bottomObstacle);
 }
 
-function checkWin() {
-  return winningConditions.some((condition) => {
-    const [a, b, c] = condition;
-    return (
-      boardState[a] === currentPlayer &&
-      boardState[b] === currentPlayer &&
-      boardState[c] === currentPlayer
-    );
-  });
+function moveObstacle(obstacle, bottomObstacle) {
+  let obstacleLeft = 400;
+  const obstacleInterval = setInterval(() => {
+    obstacleLeft -= gameSpeed;
+    obstacle.style.left = obstacleLeft + "px";
+    bottomObstacle.style.left = obstacleLeft + "px";
+
+    if (obstacleLeft < -60) {
+      clearInterval(obstacleInterval);
+      obstacles.removeChild(obstacle);
+      obstacles.removeChild(bottomObstacle);
+      score++;
+      scoreElement.innerText = "Счет: " + score;
+    }
+
+    if (
+      obstacleLeft < 90 &&
+      obstacleLeft > 50 &&
+      (birdTop < obstacle.clientHeight ||
+        birdTop > 600 - bottomObstacle.clientHeight - 40)
+    ) {
+      endGame();
+    }
+  }, 20);
 }
 
-function showNotification(message) {
-  notification.textContent = message;
-  notification.style.display = "block";
-  notification.style.opacity = "1";
-  setTimeout(() => {
-    notification.style.opacity = "0";
-    setTimeout(() => {
-      notification.style.display = "none";
-    }, 500);
-  }, 3000);
+// Завершение игры
+function endGame() {
+  alert("Игра окончена! Ваш счет: " + score);
+  window.location.reload();
 }
 
-function updateScoreboard() {
-  scoreXDisplay.textContent = score.X;
-  scoreODisplay.textContent = score.O;
-}
-
-function restartGame() {
-  gameActive = true;
-  currentPlayer = "X";
-  boardState.fill(null);
-  cells.forEach((cell) => {
-    cell.textContent = "";
-    cell.classList.remove("X", "O");
-  });
-  notification.style.display = "none";
-}
-
-cells.forEach((cell) => cell.addEventListener("click", handleCellClick));
-restartButton.addEventListener("click", restartGame);
-   
+// Игровой цикл
+setInterval(applyGravity, 20);
+setInterval(createObstacle, 2000);
